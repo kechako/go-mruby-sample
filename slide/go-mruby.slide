@@ -1,0 +1,78 @@
+Go で mruby
+12:00 2 Jun 2016
+Tags: Go, Golang, mruby, ruby
+
+Ryosuke Akiyama
+r@554.jp
+http://blog.kechako.com/
+@kechako
+
+* mruby
+
+* mruby とは
+
+mruby は ISO 標準 (30170) の一部にしたがった Ruby の軽量実装。mruby の構文は、Ruby 1.9 互換。
+
+mruby を自分のアプリケーションに埋め込むことができる。
+
+.link https://github.com/mruby/mruby
+
+* mruby の使いどころ
+
+- アプリケーションの一部に埋め込む (アプリケーションの中で、頻繁に変更したい箇所など)
+- 少ないリソースで動作させたい(組み込みとか)
+
+* mruby の入手
+
+公式サイトからダウンロード
+
+  $ curl -L -o mruby-1.2.0.zip https://github.com/mruby/mruby/archive/1.2.0.zip
+  $ unzip mruby-1.2.0.zip
+
+GitHub から
+
+  $ git clone https://github.com/mruby/mruby.git
+
+バージョン 1.2.0 を使用するなら
+
+  $ git checkout 1.2.0
+
+* mruby のビルドに必要なもの
+
+- C Compiler (i.e. gcc)
+- Linker (i.e. gcc)
+- Archive utility (i.e. ar)
+- Parse generator (i.e. bison)
+- Ruby 1.8 or 1.9 (i.e. ruby or jruby)
+
+* mruby のビルド
+
+ビルド設定は `build_config.rb` に記述する。
+あとは `minirake` を実行。
+
+  $ ruby minirake
+
+mruby, mirb とか、おまけでビルドされます。
+
+* Go に mruby を埋め込む
+
+* cgo
+
+Go から C のコードをコールできる
+
+.code -numbers cgo.go
+
+mruby を埋め込むためにこれを使う
+
+* こんな実装 (1)
+
+.code -numbers mruby.go ,/func main\(\)/
+
+* こんな実装 (2)
+
+.code -numbers mruby.go /func main\(\)/,/mrb_open\(\)/
+
+* こんな実装 (3)
+
+.code -numbers mruby.go /mrb_open\(\)/,
+
